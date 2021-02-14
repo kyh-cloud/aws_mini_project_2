@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/home.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+
+
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+<!-- Main -->
+				<div id="main" class="wrapper style2">
+					<div class="title">-게시판-</div>
+					<div class="container">
+        <!-- ======= Services Section ======= -->
+        <section id="services" class="services">
+          <div class="container">
+
+            <div class="section-title" data-aos="fade-up">
+
+                <div style="margin:20px 0;text-align:center;">
+                <h3>게시판 상세보기</h3>
+                </div>
+                {% if not rsDetail %}
+                    <p class="text-center">내용이 없습니다! </p>
+                {% endif %}
+
+                {% for i in rsDetail %}
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr style="height:45px;border-top:solid 1px #dddddd;">
+                            <td width="20%" align="center">제목</td>
+                            <td width="80%" align="left">{{ i.title }} </td>
+                        </tr>
+                        <tr style="height:45px;border-top:solid 1px #dddddd;">
+                            <td width="20%" align="center">작성자</td>
+                            <td width="80%" align="left">{{ i.id }} </td>
+                        </tr>
+                        <tr style="height:45px;border-top:solid 1px #dddddd;">
+                            <td width="20%" align="center">내용</td>
+                            <td width="80%" align="left">{{ i.b_context }} </td>
+                        </tr>
+                        <tr style="height:60px;border-top:solid 1px #dddddd;" align="center">
+                            <td width="100%" colspan="2">
+                                <button class="btn btn-outline-success my-2 my-sm-0" style="margin-right:10px; margin-top:40px;" onclick="location.href='/board_edit?b_number={{ i.b_number }}'">수정</a>
+                                <button class="btn btn-outline-success my-2 my-sm-0" style="margin-right:10px; margin-top:40px;" onclick="location.href='/home'">목록</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <form action="/comment_insert">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{i.b_number}}" name="board">
+                        댓글 작성 : <input type="text" name="c_context"></input>
+                        <button type="submit" class="btn btn-secondary">작성</button>
+                    </form>
+
+                    {% for j in rsComment %}
+                        <p> <span> {{j.id}} </span> : {{ j.c_context }} </p>
+                    {% endfor %}
+
+                {% endfor %}
+
+            </div>
+
+          </div>
+        </section><!-- End Services Section -->
+
+    </main><!-- End #main -->
+
+    {% include "footer.html" %}
+
+{% endblock %}

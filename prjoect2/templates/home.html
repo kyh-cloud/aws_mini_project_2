@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+  <main id="main">
+
+        <!-- Main -->
+				<div id="main" class="wrapper style2">
+					<div class="title">-게시판-</div>
+					<div class="container">
+
+        <!-- Content -->
+							<div id="content">
+								<article class="box post">
+									<header class="style1">
+										<h2>클라우드 엔지니어 커뮤니티에 오신것을 환영합니다!</h2>
+                                        <div style="width:50px; height:100px; border:3px; float:right;">
+                                        <a href="/board_write" class="btn btn-outline-success">등록</a>
+                                        </div>
+
+									</header>
+                {% if not rsBoard %}
+                    <p class="text-center">내용이 없습니다! </p>
+                {% endif %}
+
+                <div style="margin:20px 0;">
+                {% for i in rsBoard %}
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr style="border-top:solid 1px #dddddd;">
+                            <td width="8%" align="center">{{ i.b_number }} </td>
+                            <td width="42%" align="left"><a href="/board_view?b_number={{ i.b_number }}">{{ i.title }}</a></td>
+                            <td width="10%" align="center">{{ i.id }} </td>
+                            <td width="12%" align="right" style="padding:5px 0;">
+                                <a href="/board_delete?b_number={{ i.b_number }}" class="btn btn-outline-success">삭제</a>
+                            </td>
+                        </tr>
+                    </table>
+                {% endfor %}
+                </div>
+
+            </div>
+
+          </div>
+    </main>
+    {% include "footer.html" %}
+    {% endblock %}
